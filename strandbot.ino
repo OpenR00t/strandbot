@@ -1,43 +1,69 @@
 #include <Arduino.h>
 
-/* Turn an LED on/off based on a command send via BlueTooth
-**
-** Credit: The following example was used as a reference
-** Rui Santos: http://randomnerdtutorials.wordpress.com
-*/
 
-int ledPin = 13;  // use the built in LED on pin 13 of the Uno
+#include <Servo.h>
+
+Servo LeftServo; Servo RightServo;
 int state = 0;
-int flag = 0;        // make sure that you return the state only once
+int flag = 0;
 
-void setup() {
-    // sets the pins as outputs:
-    pinMode(ledPin, OUTPUT);
-    digitalWrite(ledPin, LOW);
+void setup()
+{
+  LeftServo.attach(9);
+  LeftServo.write(90);  // set servo speed
 
-    Serial.begin(9600); // Default connection rate for my BT module
+  RightServo.attach(8);
+  RightServo.write(90);
+
+  pinMode(7, INPUT_PULLUP);// Enable internal pull-up resistor on pin 7 (xyjoy)
+   Serial.begin(9600);
 }
 
 void loop() {
-    //if some data is sent, read it and save it in the state variable
-    if(Serial.available() > 0){
-      state = Serial.read();
-      flag=0;
-    }
-    // if the state is 0 the led will turn off
-    if (state == '0') {
-        digitalWrite(ledPin, LOW);
-        if(flag == 0){
-          Serial.println("LED: off");
-          flag = 1;
-        }
-    }
-    // if the state is 1 the led will turn on
-    else if (state == '1') {
-        digitalWrite(ledPin, HIGH);
-        if(flag == 0){
-          Serial.println("LED: on");
-          flag = 1;
-        }
-    }
+  if(Serial.available() > 0){
+        state = Serial.read();
+        flag=0;
+      }
+  // Turns the left Servo on Forwards, when 1 is inputted
+  if (state == '1') {
+      LeftServo.write(160);
+      if(flag == 0){
+        Serial.println("Left Forward");
+        flag = 1;
+      }
+  }
+  //Turns the left Servo on Backwards, when 2 is inputted
+  else if (state == '2') {
+      LeftServo.write(20);
+      if(flag == 0){
+        Serial.println("Left Backward");
+        flag = 1;
+      }
+
+  }
+  //Turns the right Servo on Backwards, when 0 is inputted
+  else if (state == '0') {
+      RightServo.write(20);
+      if(flag == 0){
+        Serial.println("Right Backward");
+        flag = 1;
+      }
+  }
+  //Turns the Right Servo on Forwards, when 9 is inputted
+  else if (state == '9') {
+      RightServo.write(160);
+      if(flag == 0){
+        Serial.println("Right Forward");
+        flag = 1;
+      }
+  }
+  //Stops both Servos, when 5 is inputted
+  else if (state == '5') {
+      LeftServo.write(90);
+      RightServo.write(90);
+      if(flag == 0){
+        Serial.println("Stop");
+        flag = 1;
+      }
+  }
 }
