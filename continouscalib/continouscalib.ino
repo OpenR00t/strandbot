@@ -7,10 +7,10 @@ Servo LeftServo; Servo RightServo;
 
 {
   LeftServo.attach(9);
-  LeftServo.write(90);  // set servo speed
+  LeftServo.writeMicroseconds(1500);  // set servo speed
 
   RightServo.attach(8);
-  RightServo.write(90);
+  RightServo.writeMicroseconds(1500);
 
   pinMode(7, INPUT_PULLUP);// Enable internal pull-up resistor on pin 7 (xyjoy)
    Serial.begin(9600);
