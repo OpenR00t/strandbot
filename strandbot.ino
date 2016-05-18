@@ -10,10 +10,10 @@ int flag = 0;
 void setup()
 {
   LeftServo.attach(9);
-  LeftServo.write(90);  // set servo speed
+  LeftServo.writeMicroseconds(1500);  // set servo speed
 
   RightServo.attach(8);
-  RightServo.write(90);
+  RightServo.writeMicroseconds(1500);
 
   pinMode(7, INPUT_PULLUP);// Enable internal pull-up resistor on pin 7 (xyjoy)
    Serial.begin(9600);
@@ -26,41 +26,45 @@ void loop() {
       }
   // Turns the left Servo on Forwards, when 1 is inputted
   if (state == '1') {
-      LeftServo.write(160);
+      LeftServo.writeMicroseconds(1980);
+      RightServo.writeMicroseconds(1020);
       if(flag == 0){
-        Serial.println("Left Forward");
+        Serial.println("Forwards");
         flag = 1;
       }
   }
   //Turns the left Servo on Backwards, when 2 is inputted
   else if (state == '2') {
-      LeftServo.write(20);
+      LeftServo.writeMicroseconds(1020);
+      RightServo.writeMicroseconds(1980);
       if(flag == 0){
-        Serial.println("Left Backward");
+        Serial.println("Backward");
         flag = 1;
       }
 
   }
   //Turns the right Servo on Backwards, when 0 is inputted
-  else if (state == '0') {
-      RightServo.write(20);
+  else if (state == '4') {
+      LeftServo.writeMicroseconds(1500);
+      RightServo.writeMicroseconds(1020);
       if(flag == 0){
-        Serial.println("Right Backward");
+        Serial.println("Right");
         flag = 1;
       }
   }
   //Turns the Right Servo on Forwards, when 9 is inputted
-  else if (state == '9') {
-      RightServo.write(160);
+  else if (state == '3') {
+      LeftServo.writeMicroseconds(1980);
+      RightServo.writeMicroseconds(1500);
       if(flag == 0){
-        Serial.println("Right Forward");
+        Serial.println("Left");
         flag = 1;
       }
   }
   //Stops both Servos, when 5 is inputted
-  else if (state == '5') {
-      LeftServo.write(90);
-      RightServo.write(90);
+  else if (state == '0') {
+      LeftServo.writeMicroseconds(1500);
+      RightServo.writeMicroseconds(1500);
       if(flag == 0){
         Serial.println("Stop");
         flag = 1;
