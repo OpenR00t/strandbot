@@ -4,7 +4,7 @@
 #include <Servo.h>
 
 Servo LeftServo; Servo RightServo;
-
+void setup()
 {
   LeftServo.attach(9);
   LeftServo.writeMicroseconds(1500);  // set servo speed
